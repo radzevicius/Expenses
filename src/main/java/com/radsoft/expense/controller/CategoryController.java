@@ -19,7 +19,6 @@ public class CategoryController {
     private CategoryRepository categoryRepository;
 
     public CategoryController(CategoryRepository categoryRepository) {
-        super();
         this.categoryRepository = categoryRepository;
     }
 
