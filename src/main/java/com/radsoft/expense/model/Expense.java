@@ -20,7 +20,7 @@ public class Expense {
     @Id
     private Long id;
 
-    private Instant expenseDate;
+    private Instant expense_date;
 
     private String description;
 
