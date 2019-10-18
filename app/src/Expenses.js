@@ -7,24 +7,44 @@ import {Container,Form,Input,Button,FormGroup,Label} from 'reactstrap';
 import {Link} from 'react-router-dom'
 
 class Expenses extends Component {
-    state = { 
-        date:new Date(),
-        isLoading: true,
-        expenses: [],
-        categories: []
+
+    emptyItem ={
+        id:'103',
+        expenseDate: new Date(),
+        description: '',
+        location: '',
+        categories: [1,'Travel']
     }
+
+    constructor(props){
+        super(props)
+        this.state ={
+            date:new Date(),
+            isLoading: true,
+            expenses: [],
+            categories: [],
+            item: this.emptyItem
+        }
+    }
+
 
     async componentDidMount(){
         const response= await fetch('/api/categories');
         const body= await response.json();
         this.setState({categories : body, isLoading:false})
+
+        const responseExpenses= await fetch('/api/expenses');
+        const bodyExpenses= await response.json();
+        this.setState({expenses : body, isLoading:false})
     }
+
 
 
 
     render() { 
         const title =<h3>Add Expense</h3>
-        const {categories, isLoading} =this.state;
+        const {categories} =this.state;
+        const {expenses,isLoading} =this.state;
 
         if(isLoading)
             return(<div>Loading....</div>)
@@ -76,7 +96,26 @@ class Expenses extends Component {
                 </Form>
 
             </Container>
-            </div> );
+            {''}
+                <Container>
+                    <h3>Expense List</h3>
+                    <Table className="mt-4">
+                        <thead>
+                            <tr>
+                                <th width=''></th>
+                                <th width=''></th>
+                                <th width=''></th>
+                                <th width=''></th>
+                                <th width=''></th>
+                            </tr>
+                        </thead>
+
+
+                    </Table>
+                </Container>
+
+            </div> 
+            );
     }
 }
  
