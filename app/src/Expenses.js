@@ -3,7 +3,7 @@ import AppNav from './AppNav';
 import DatePicker from 'react-datepicker';
 import './App.css'
 import "react-datepicker/dist/react-datepicker.css";
-import {Container,Form,Input,Button,FormGroup,Label} from 'reactstrap';
+import {Container,Form,Input,Button,FormGroup,Label,Table} from 'reactstrap';
 import {Link} from 'react-router-dom'
 
 class Expenses extends Component {
@@ -34,7 +34,7 @@ class Expenses extends Component {
         this.setState({categories : body, isLoading:false})
 
         const responseExpenses= await fetch('/api/expenses');
-        const bodyExpenses= await response.json();
+        const bodyExpenses= await responseExpenses.json();
         this.setState({expenses : body, isLoading:false})
     }
 

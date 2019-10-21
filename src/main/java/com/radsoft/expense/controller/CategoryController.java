@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class CategoryController {
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public CategoryController(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
