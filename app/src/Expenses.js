@@ -27,6 +27,20 @@ class Expenses extends Component {
         }
     }
 
+    async remove(id){
+        await fetch(`/api/expenses/${id}`, {
+            method: 'DELETE',
+            headers : {
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        ).then(() =>{
+            let updatedExpenses = [...this.state.expenses].filter(i => i.id !== id);
+            this.setState({expenses : updatedExpenses});
+        });
+    }
+
 
     async componentDidMount(){
         const response= await fetch('/api/categories');
@@ -35,7 +49,7 @@ class Expenses extends Component {
 
         const responseExpenses= await fetch('/api/expenses');
         const bodyExpenses= await responseExpenses.json();
-        this.setState({expenses : body, isLoading:false})
+        this.setState({expenses : bodyExpenses, isLoading:false})
     }
 
 
@@ -50,10 +64,22 @@ class Expenses extends Component {
             return(<div>Loading....</div>)
 
         let optionList =
-            categories.map(category =>
+            categories.map((category) =>
                 <option id={category.id}>
                     {category.name}
-                </option>)
+                </option>
+                )
+        
+        let rows=
+                expenses.map(expense =>
+                    <tr>
+                        <td>{expense.description}</td>
+                        <td>{expense.location}</td>
+                        <td>{expense.category.name}</td>
+                        <td>{expense.expense_date}</td>
+                        <td><Button size="sm" color="danger" onClick={() => this.remove(expense.id)}>Delete</Button></td>
+                    </tr>)
+        
 
         return ( 
         <div>
@@ -102,13 +128,16 @@ class Expenses extends Component {
                     <Table className="mt-4">
                         <thead>
                             <tr>
-                                <th width=''></th>
-                                <th width=''></th>
-                                <th width=''></th>
-                                <th width=''></th>
-                                <th width=''></th>
+                                <th width="20%">Desription</th>
+                                <th width="10%">Location</th>
+                                <th width="10%">Category</th>
+                                <th>Date</th>
+                                <th width="10%">Action</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            {rows}
+                        </tbody>
 
 
                     </Table>
